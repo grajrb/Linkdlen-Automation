@@ -1,0 +1,10 @@
+# .gitignore
+node_modules
+.env
+dist
+*.png
+*.log
+.DS_Store
+.vscode/settings.json
+api-usage.json
+content_*/

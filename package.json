@@ -1,0 +1,29 @@
+{
+  "name": "linkedin-automation-engine",
+  "version": "2.0.0",
+  "description": "Advanced LinkedIn content automation with system design diagrams and AI-powered programming education",
+  "main": "programming-content.ts",
+  "scripts": {
+    "start": "ts-node src/main.ts",
+    "generate": "ts-node programming-content.ts",
+    "test": "ts-node test-mode.ts",
+    "usage": "ts-node -e \"import('./api-usage-monitor').then(m => m.displayUsageStats())\"",
+    "usage-stats": "ts-node -e \"import('./api-usage-monitor').then(m => m.getCurrentUsage().then(u => console.log(JSON.stringify(u, null, 2))))\"",
+    "check-limits": "ts-node -e \"import('./api-usage-monitor').then(m => m.checkApiLimits(2, 1500).then(l => console.log(JSON.stringify(l, null, 2))))\"",
+    "template": "ts-node -e \"import('./template-generator').then(m => m.generateDynamicTemplate())\"",
+    "build": "tsc",
+    "dev": "ts-node --watch programming-content.ts"
+  },
+  "keywords": ["linkedin", "automation", "content", "ai", "gemini", "system-design", "programming", "education"],
+  "author": "LinkedIn Automation Engine",
+  "license": "MIT",
+  "dependencies": {
+    "typescript": "^5.7.2",
+    "ts-node": "^10.9.2",
+    "@types/node": "^22.10.2",
+    "dotenv": "^16.4.7",
+    "@google/generative-ai": "^0.21.0",
+    "puppeteer": "^23.10.1",
+    "rss-parser": "^3.13.0"
+  }
+}

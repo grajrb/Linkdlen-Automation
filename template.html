@@ -1,0 +1,288 @@
+<!-- template.html - Comprehensive Educational Design with Orange Burst theme -->
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
+            background-image: 
+                radial-gradient(circle at 25% 25%, #ff6b6b20 0%, transparent 50%),
+                radial-gradient(circle at 75% 75%, #ff9ff320 0%, transparent 50%);
+        
+            color: #7c2d12;
+            width: 1080px;
+            height: 1080px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+            padding: 50px;
+        }
+        
+        /* Animated background elements */
+        body::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: 
+                radial-gradient(circle at 30% 30%, #f9731610 0%, transparent 50%),
+                radial-gradient(circle at 70% 70%, #f9731608 0%, transparent 50%);
+            animation: rotate 30s linear infinite;
+            z-index: -1;
+        }
+        
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Header with title */
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            z-index: 10;
+        }
+        
+        .header h1 {
+            font-size: 52px;
+            font-weight: 800;
+            line-height: 1.1;
+            background: linear-gradient(135deg, #dc2626, #ea580c); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+            text-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            letter-spacing: -0.02em;
+            margin-bottom: 10px;
+        }
+        
+        .header .subtitle {
+            font-size: 18px;
+            opacity: 0.8;
+            font-weight: 500;
+        }
+        
+        /* Main content area */
+        .content-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 25px;
+            padding: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        
+        /* Content sections */
+        .content-section {
+            margin-bottom: 30px;
+        }
+        
+        .content-section:last-child {
+            margin-bottom: 0;
+        }
+        
+        .section-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #f97316;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .content-text {
+            font-size: 20px;
+            line-height: 1.4;
+            font-weight: 500;
+            color: #7c2d12;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        /* Key points styling */
+        .key-points {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .key-point {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 18px;
+            font-weight: 500;
+            background: rgba(255, 255, 255, 0.08);
+            padding: 12px 15px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .key-point .icon {
+            font-size: 20px;
+            min-width: 24px;
+        }
+        
+        /* Best practice box */
+        .best-practice {
+            background: linear-gradient(135deg, #f9731620, #f9731610);
+            border: 2px solid #f9731640;
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        
+        .best-practice .title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #f97316;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .best-practice .text {
+            font-size: 16px;
+            font-weight: 500;
+            line-height: 1.4;
+        }
+        
+        /* Footer */
+        .footer {
+            position: absolute;
+            bottom: 30px;
+            left: 50px;
+            right: 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 16px;
+            font-weight: 600;
+            color: #a16207;
+            opacity: 0.9;
+        }
+        
+        .footer .brand {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .footer .category {
+            font-size: 14px;
+            padding: 6px 12px;
+            background: #f9731620;
+            border-radius: 20px;
+            border: 1px solid #f9731630;
+        }
+        
+        /* Decorative elements */
+        .decoration {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            border: 2px solid #f9731625;
+            border-radius: 50%;
+            animation: pulse 4s ease-in-out infinite;
+        }
+        
+        .decoration:nth-child(1) {
+            top: 8%;
+            right: 8%;
+            animation-delay: 0s;
+        }
+        
+        .decoration:nth-child(2) {
+            bottom: 12%;
+            left: 6%;
+            animation-delay: 2s;
+            transform: rotate(45deg);
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 0.2;
+            }
+            50% {
+                transform: scale(1.1);
+                opacity: 0.4;
+            }
+        }
+        
+        /* System Diagram Styles */
+        .diagram-container {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 300px;
+        }
+        
+        .diagram-container svg {
+            max-width: 100%;
+            height: auto;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));
+        }
+        
+        .diagram-container svg text {
+            fill: #7c2d12;
+        }
+        
+        .diagram-container svg .diagram-title {
+            fill: #f97316;
+            font-weight: 700;
+        }
+        
+        .no-diagram {
+            text-align: center;
+            padding: 40px;
+            color: #7c2d12;
+            opacity: 0.7;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div class="decoration"></div>
+    <div class="decoration"></div>
+    
+    <div class="header">
+        <h1>{{TITLE}}</h1>
+        <div class="subtitle">Essential Knowledge for Modern Developers</div>
+    </div>
+    
+    <div class="content-container">
+        {{COMPREHENSIVE_CONTENT}}
+    </div>
+    
+    <div class="footer">
+        <div class="brand">
+            <span>💻</span>
+            <span>Tech Knowledge Daily</span>
+        </div>
+        <div class="category">{{CATEGORY}}</div>
+    </div>
+</body>
+</html>
