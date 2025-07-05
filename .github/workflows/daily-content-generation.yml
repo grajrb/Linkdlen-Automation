@@ -11,6 +11,12 @@ on:
         required: false
         default: 'false'
 
+permissions:
+  contents: write
+  issues: write
+  statuses: write
+  actions: read
+
 env:
   NODE_VERSION: '18'
 
@@ -104,13 +110,30 @@ jobs:
         (async () => {
           const usage = await getCurrentUsage();
           console.log('USAGE_STATS=' + JSON.stringify(usage));
-          echo "DAILY_REQUESTS=${usage.dailyRequests}" >> $GITHUB_OUTPUT
-          echo "DAILY_TOKENS=${usage.dailyTokens}" >> $GITHUB_OUTPUT
-          echo "REQUESTS_REMAINING=$((50 - usage.dailyRequests))" >> $GITHUB_OUTPUT
-          echo "TOKENS_REMAINING=$((32000 - usage.dailyTokens))" >> $GITHUB_OUTPUT
-          echo "USAGE_PERCENTAGE=$((usage.dailyRequests * 100 / 50))" >> $GITHUB_OUTPUT
         })();
         " | tee usage_stats.log
+        
+        # Extract usage stats and set outputs
+        USAGE_OUTPUT=$(cat usage_stats.log | grep 'USAGE_STATS=' | cut -d'=' -f2-)
+        if [ ! -z "$USAGE_OUTPUT" ]; then
+          DAILY_REQUESTS=$(echo $USAGE_OUTPUT | jq -r '.dailyRequests // 0')
+          DAILY_TOKENS=$(echo $USAGE_OUTPUT | jq -r '.dailyTokens // 0')
+          REQUESTS_REMAINING=$((50 - $DAILY_REQUESTS))
+          TOKENS_REMAINING=$((32000 - $DAILY_TOKENS))
+          USAGE_PERCENTAGE=$(($DAILY_REQUESTS * 100 / 50))
+          
+          echo "DAILY_REQUESTS=$DAILY_REQUESTS" >> $GITHUB_OUTPUT
+          echo "DAILY_TOKENS=$DAILY_TOKENS" >> $GITHUB_OUTPUT
+          echo "REQUESTS_REMAINING=$REQUESTS_REMAINING" >> $GITHUB_OUTPUT
+          echo "TOKENS_REMAINING=$TOKENS_REMAINING" >> $GITHUB_OUTPUT
+          echo "USAGE_PERCENTAGE=$USAGE_PERCENTAGE" >> $GITHUB_OUTPUT
+        else
+          echo "DAILY_REQUESTS=0" >> $GITHUB_OUTPUT
+          echo "DAILY_TOKENS=0" >> $GITHUB_OUTPUT
+          echo "REQUESTS_REMAINING=50" >> $GITHUB_OUTPUT
+          echo "TOKENS_REMAINING=32000" >> $GITHUB_OUTPUT
+          echo "USAGE_PERCENTAGE=0" >> $GITHUB_OUTPUT
+        fi
 
     - name: Create Usage Report
       run: |
@@ -158,21 +181,31 @@ jobs:
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        git add README.md api-usage.json
-        git diff --staged --quiet || git commit -m "📊 Update API usage stats - $(date)"
+        git add README.md api-usage.json || true
+        if [[ -n $(git status --porcelain) ]]; then
+          git commit -m "📊 Update API usage stats - $(date)"
+        else
+          echo "No changes to commit"
+        fi
 
     - name: Push changes
-      uses: ad-m/github-push-action@master
       if: always()
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        branch: main
+      run: |
+        if [[ -n $(git status --porcelain) ]]; then
+          git push origin main
+        else
+          echo "No changes to push"
+        fi
 
     - name: Create Issue on API Limit Reached
       if: steps.check-limits.outcome == 'failure'
       uses: actions/github-script@v7
       with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
         script: |
+          const dailyRequests = '${{ steps.usage-stats.outputs.DAILY_REQUESTS }}' || '0';
+          const dailyTokens = '${{ steps.usage-stats.outputs.DAILY_TOKENS }}' || '0';
+          
           github.rest.issues.create({
             owner: context.repo.owner,
             repo: context.repo.repo,
@@ -180,8 +213,8 @@ jobs:
             body: `## API Usage Alert
             
             The daily API limits have been reached:
-            - Requests: ${{ steps.usage-stats.outputs.DAILY_REQUESTS }}/50
-            - Tokens: ${{ steps.usage-stats.outputs.DAILY_TOKENS }}/32,000
+            - Requests: ${dailyRequests}/50
+            - Tokens: ${dailyTokens}/32,000
             
             Content generation was skipped for today. The limits will reset at midnight UTC.
             
@@ -194,15 +227,17 @@ jobs:
       if: always()
       uses: actions/github-script@v7
       with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
         script: |
-          const status = ${{ steps.check-limits.outcome == 'success' }} ? '✅ Success' : '⚠️ Limited';
-          const usage = '${{ steps.usage-stats.outputs.USAGE_PERCENTAGE }}%';
+          const isSuccess = '${{ steps.check-limits.outcome }}' === 'success';
+          const status = isSuccess ? '✅ Success' : '⚠️ Limited';
+          const usage = '${{ steps.usage-stats.outputs.USAGE_PERCENTAGE }}' || '0';
           
           github.rest.repos.createCommitStatus({
             owner: context.repo.owner,
             repo: context.repo.repo,
             sha: context.sha,
-            state: ${{ steps.check-limits.outcome == 'success' }} ? 'success' : 'failure',
-            description: `API Usage: ${usage} | Status: ${status}`,
+            state: isSuccess ? 'success' : 'failure',
+            description: `API Usage: ${usage}% | Status: ${status}`,
             context: 'Daily Content Generation'
           });
