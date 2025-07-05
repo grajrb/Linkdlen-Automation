@@ -181,3 +181,4 @@ This project is licensed under the [MIT License](LICENSE).
 - Debug screenshots are saved on failure
 - Ensure Gemini API key has sufficient quota
 
+ECHO is on.
