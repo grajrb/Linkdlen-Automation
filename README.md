@@ -166,9 +166,9 @@ Modify limits in `api-usage-monitor.ts` if you have a paid plan.
 4. Test locally with `npm run generate`
 5. Submit a pull request
 
-## 📜 License
+## 📝 License
 
-MIT License - feel free to use for your own LinkedIn automation!
+This project is licensed under the [MIT License](LICENSE).
 
 ---
 
