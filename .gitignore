@@ -8,3 +8,5 @@ dist
 .vscode/settings.json
 api-usage.json
 content_*/
+# Allow usage report to be committed
+!usage_report.md
