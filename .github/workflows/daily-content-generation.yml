@@ -2,8 +2,8 @@ name: Daily LinkedIn Content Generation
 
 on:
   schedule:
-    # Run at 8:00 AM UTC (adjust for your timezone)
-    - cron: '0 8 * * *'
+    # Run at 8:30 AM IST (3:00 AM UTC)
+    - cron: '0 3 * * *'
   workflow_dispatch:
     inputs:
       force_run:
