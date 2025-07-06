@@ -1,288 +1,224 @@
-<!-- template.html - Comprehensive Educational Design with Orange Burst theme -->
 <!DOCTYPE html>
 <html>
 <head>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Inter', sans-serif;
-            
-            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
-            background-image: 
-                radial-gradient(circle at 25% 25%, #ff6b6b20 0%, transparent 50%),
-                radial-gradient(circle at 75% 75%, #ff9ff320 0%, transparent 50%);
-        
-            color: #7c2d12;
-            width: 1080px;
-            height: 1080px;
-            display: flex;
-            flex-direction: column;
-            position: relative;
-            overflow: hidden;
-            padding: 50px;
-        }
-        
-        /* Animated background elements */
-        body::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: 
-                radial-gradient(circle at 30% 30%, #f9731610 0%, transparent 50%),
-                radial-gradient(circle at 70% 70%, #f9731608 0%, transparent 50%);
-            animation: rotate 30s linear infinite;
-            z-index: -1;
-        }
-        
-        @keyframes rotate {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        /* Header with title */
-        .header {
-            text-align: center;
-            margin-bottom: 40px;
-            z-index: 10;
-        }
-        
-        .header h1 {
-            font-size: 52px;
-            font-weight: 800;
-            line-height: 1.1;
-            background: linear-gradient(135deg, #dc2626, #ea580c); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-            text-shadow: 0 4px 8px rgba(0,0,0,0.2);
-            letter-spacing: -0.02em;
-            margin-bottom: 10px;
-        }
-        
-        .header .subtitle {
-            font-size: 18px;
-            opacity: 0.8;
-            font-weight: 500;
-        }
-        
-        /* Main content area */
-        .content-container {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            backdrop-filter: blur(10px);
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 25px;
-            padding: 40px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            position: relative;
-        }
-        
-        /* Content sections */
-        .content-section {
-            margin-bottom: 30px;
-        }
-        
-        .content-section:last-child {
-            margin-bottom: 0;
-        }
-        
-        .section-title {
-            font-size: 22px;
-            font-weight: 700;
-            color: #f97316;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .content-text {
-            font-size: 20px;
-            line-height: 1.4;
-            font-weight: 500;
-            color: #7c2d12;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        
-        /* Key points styling */
-        .key-points {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-top: 15px;
-        }
-        
-        .key-point {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 18px;
-            font-weight: 500;
-            background: rgba(255, 255, 255, 0.08);
-            padding: 12px 15px;
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .key-point .icon {
-            font-size: 20px;
-            min-width: 24px;
-        }
-        
-        /* Best practice box */
-        .best-practice {
-            background: linear-gradient(135deg, #f9731620, #f9731610);
-            border: 2px solid #f9731640;
-            border-radius: 15px;
-            padding: 20px;
-            margin-top: 20px;
-        }
-        
-        .best-practice .title {
-            font-size: 18px;
-            font-weight: 700;
-            color: #f97316;
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .best-practice .text {
-            font-size: 16px;
-            font-weight: 500;
-            line-height: 1.4;
-        }
-        
-        /* Footer */
-        .footer {
-            position: absolute;
-            bottom: 30px;
-            left: 50px;
-            right: 50px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 16px;
-            font-weight: 600;
-            color: #a16207;
-            opacity: 0.9;
-        }
-        
-        .footer .brand {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .footer .category {
-            font-size: 14px;
-            padding: 6px 12px;
-            background: #f9731620;
-            border-radius: 20px;
-            border: 1px solid #f9731630;
-        }
-        
-        /* Decorative elements */
-        .decoration {
-            position: absolute;
-            width: 80px;
-            height: 80px;
-            border: 2px solid #f9731625;
-            border-radius: 50%;
-            animation: pulse 4s ease-in-out infinite;
-        }
-        
-        .decoration:nth-child(1) {
-            top: 8%;
-            right: 8%;
-            animation-delay: 0s;
-        }
-        
-        .decoration:nth-child(2) {
-            bottom: 12%;
-            left: 6%;
-            animation-delay: 2s;
-            transform: rotate(45deg);
-        }
-        
-        @keyframes pulse {
-            0%, 100% {
-                transform: scale(1);
-                opacity: 0.2;
-            }
-            50% {
-                transform: scale(1.1);
-                opacity: 0.4;
-            }
-        }
-        
-        /* System Diagram Styles */
-        .diagram-container {
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 15px;
-            padding: 20px;
-            margin: 20px 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 300px;
-        }
-        
-        .diagram-container svg {
-            max-width: 100%;
-            height: auto;
-            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));
-        }
-        
-        .diagram-container svg text {
-            fill: #7c2d12;
-        }
-        
-        .diagram-container svg .diagram-title {
-            fill: #f97316;
-            font-weight: 700;
-        }
-        
-        .no-diagram {
-            text-align: center;
-            padding: 40px;
-            color: #7c2d12;
-            opacity: 0.7;
-            font-style: italic;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap');
+    html, body {
+      width: 1080px;
+      height: 1080px;
+      background: linear-gradient(135deg, #fef7ed 0%, #fed7aa 100%);
+      color: #292524;
+      font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      overflow: hidden;
+    }
+    body {
+      padding: 35px 30px 25px 30px;
+      position: relative;
+    }
+    
+    /* Warm gradient accent bar */
+    body::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 8px;
+      background: linear-gradient(90deg, #ea580c 0%, #f97316 50%, #fb923c 100%);
+      border-radius: 0 0 8px 8px;
+    }
+    
+    .main-title {
+      font-size: 46px;
+      font-weight: 900;
+      background: linear-gradient(135deg, #c2410c 0%, #ea580c 50%, #f97316 100%);
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-align: center;
+      margin-bottom: 25px;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    .category-badge {
+      display: inline-block;
+      background: linear-gradient(135deg, #fed7aa 0%, #fdba74 100%);
+      color: #9a3412;
+      padding: 12px 24px;
+      border-radius: 25px;
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      box-shadow: 0 4px 12px rgba(234, 88, 12, 0.2);
+      border: 2px solid #fed7aa;
+    }
+    
+    .content-section {
+      margin-bottom: 22px;
+      background: rgba(255, 255, 255, 0.8);
+      padding: 18px;
+      border-radius: 20px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+      border-left: 6px solid #f97316;
+    }
+    
+    .section-title {
+      font-size: 20px;
+      font-weight: 800;
+      background: linear-gradient(135deg, #c2410c 0%, #ea580c 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .section-content {
+      font-size: 15px;
+      font-weight: 500;
+      color: #451a03;
+      line-height: 1.5;
+      margin-left: 30px;
+      font-family: 'Inter', sans-serif;
+    }
+    
+    .bullet-points {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      margin-left: 20px;
+    }
+    
+    .bullet-points li {
+      font-size: 15px;
+      font-weight: 600;
+      color: #451a03;
+      margin-bottom: 10px;
+      padding: 10px 12px 10px 38px;
+      position: relative;
+      line-height: 1.4;
+      background: linear-gradient(135deg, #fef3e7 0%, #fed7aa 100%);
+      border-radius: 12px;
+      border-left: 4px solid #f97316;
+      font-family: 'Inter', sans-serif;
+    }
+    
+    .bullet-points li::before {
+      content: '🔥';
+      font-size: 18px;
+      position: absolute;
+      left: 12px;
+      top: 10px;
+    }
+    
+    .use-case {
+      background: linear-gradient(135deg, #fef3e7 0%, #fde68a 100%);
+      border-left: 6px solid #f59e0b;
+      padding: 18px 18px 18px 55px;
+      border-radius: 15px;
+      font-style: italic;
+      color: #92400e;
+      font-weight: 600;
+      font-size: 14px;
+      line-height: 1.6;
+      box-shadow: 0 4px 12px rgba(245, 158, 11, 0.15);
+      position: relative;
+      min-height: 80px;
+    }
+    
+    .use-case::before {
+      content: '💡';
+      font-size: 20px;
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      background: #fbbf24;
+      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 8px rgba(251, 191, 36, 0.3);
+    }
+    
+    .best-practice {
+      background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+      border-left: 6px solid #10b981;
+      padding: 18px 18px 18px 55px;
+      border-radius: 15px;
+      color: #065f46;
+      font-weight: 600;
+      font-size: 14px;
+      line-height: 1.6;
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15);
+      position: relative;
+      min-height: 80px;
+    }
+    
+    .best-practice::before {
+      content: '✅';
+      font-size: 20px;
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      background: #34d399;
+      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 8px rgba(52, 211, 153, 0.3);
+    }
+    
+    .diagram-container {
+      margin: 25px 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #f5f7fa;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 30px;
+      min-height: 200px;
+    }
+    
+    .diagram-container svg {
+      max-width: 100%;
+      height: auto;
+    }
+    
+    .footer {
+      position: absolute;
+      bottom: 25px;
+      right: 40px;
+      font-size: 14px;
+      color: #92400e;
+      font-weight: 600;
+      background: rgba(255, 255, 255, 0.9);
+      padding: 8px 16px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+  </style>
 </head>
 <body>
-    <div class="decoration"></div>
-    <div class="decoration"></div>
-    
-    <div class="header">
-        <h1>{{TITLE}}</h1>
-        <div class="subtitle">Essential Knowledge for Modern Developers</div>
-    </div>
-    
-    <div class="content-container">
-        {{COMPREHENSIVE_CONTENT}}
-    </div>
-    
-    <div class="footer">
-        <div class="brand">
-            <span>💻</span>
-            <span>Tech Knowledge Daily</span>
-        </div>
-        <div class="category">{{CATEGORY}}</div>
-    </div>
+  <div class="category-badge">{{CATEGORY}}</div>
+  <div class="main-title">{{TITLE}}</div>
+  
+  {{COMPREHENSIVE_CONTENT}}
+  
+  <div class="footer">📚 Daily Tech Learning • linkedin.com/in/gaurav-raj1</div>
 </body>
 </html>
